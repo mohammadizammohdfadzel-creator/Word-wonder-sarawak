@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wonder Kata Sarawak</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#5ec7ff,#dff8ff);display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#ffffffdd;padding:20px;border-radius:18px;max-width:420px;width:92%;box-shadow:0 8px 24px #0003;text-align:center}
+#boxes{display:flex;justify-content:center;gap:8px;margin:16px 0}
+.box{width:44px;height:44px;border:2px solid #4caf50;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold}
+#letters{display:grid;grid-template-columns:repeat(2,70px);gap:10px;justify-content:center}
+button{padding:14px;border:none;border-radius:50%;font-size:22px;background:#4caf50;color:#fff;cursor:pointer}
+#msg{height:24px;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🌿 Wonder Kata Sarawak</h2>
+<p>Level 1 • Tema: Flora</p>
+<div style="font-size:72px">🌿</div>
+<div id="boxes"></div>
+<div id="letters"></div>
+<p id="msg"></p>
+<button onclick="resetWord()" style="border-radius:10px;padding:10px 18px;font-size:16px">Reset</button>
+</div>
+<script>
+const answer="PAKU";
+let current="";
+const boxes=document.getElementById("boxes");
+const letters=document.getElementById("letters");
+const msg=document.getElementById("msg");
+function draw(){
+ boxes.innerHTML="";
+ [...answer].forEach((c,i)=>{
+  const d=document.createElement("div");
+  d.className="box";
+  d.textContent=current[i]||"";
+  boxes.appendChild(d);
+ });
+}
+function buildLetters(){
+ letters.innerHTML="";
+ [...answer].sort(()=>Math.random()-0.5).forEach(ch=>{
+   const b=document.createElement("button");
+   b.textContent=ch;
+   b.onclick=()=>{
+      if(current.length<answer.length){
+        current+=ch;
+        draw();
+        if(current.length===answer.length){
+          if(current===answer){
+            msg.textContent="🎉 Tahniah!";
+          }else{
+            msg.textContent="❌ Cuba lagi";
+          }
+        }
+      }
+   };
+   letters.appendChild(b);
+ });
+}
+function resetWord(){current="";msg.textContent="";draw();buildLetters();}
+resetWord();
+</script>
+</body>
+</html>
